@@ -3,7 +3,7 @@ import { AdminMenu } from "@/components/Admin/AdminMenu";
 
 export const Admin = ({ children }) => {
   return (
-    <main className="container">
+    <main className="container mt-5">
       <div className="row">
         <div className="col-3">
           <AdminMenu />

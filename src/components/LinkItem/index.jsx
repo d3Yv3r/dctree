@@ -1,6 +1,6 @@
 import "./LinkItem.css";
 
-export default function LinkItem({ title, description, label }) {
+export default function LinkItem({ title, description, label, link }) {
   return (
     <div className="link-wrap">
       {title && description && (
@@ -9,7 +9,7 @@ export default function LinkItem({ title, description, label }) {
           <span className="description">{description}</span>
         </>
       )}
-      <a href="#" className="link-item">
+      <a href={link} className="link-item">
         {label}
       </a>
     </div>
