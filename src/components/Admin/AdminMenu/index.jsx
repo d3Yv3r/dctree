@@ -17,6 +17,13 @@ export const AdminMenu = () => {
       >
         Criar Link
       </NavLink>
+
+      <NavLink
+        to="/admin/ui"
+        className="list-group-item list-group-item-action"
+      >
+        Ui
+      </NavLink>
     </div>
   );
 };

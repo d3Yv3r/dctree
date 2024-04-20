@@ -1,7 +1,8 @@
 import LinkItem from "@/components/LinkItem";
 import LinkList from "@/components/LinkList";
+import storage from "@/storage";
 
-const links = JSON.parse(window.localStorage.getItem("account-links"));
+const links = storage.getAccountLinks();
 
 export default function AccountLinks() {
   return (

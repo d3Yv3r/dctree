@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Form from "@/components/Form";
+import storage from "@/storage";
 
 export default function CreateLinkForm() {
   const [label, setLabel] = useState();
@@ -7,12 +8,7 @@ export default function CreateLinkForm() {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
 
-  let productLinks = window.localStorage.getItem("account-links");
-  productLinks = JSON.parse(productLinks) ?? [];
-
-  // productLinks = JSON.parse(productLinks) ? productLinks : []; -> mesma verificação que a de cima.
-
-  console.log(productLinks);
+  let productLinks = storage.getAccountLinks();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,7 +20,7 @@ export default function CreateLinkForm() {
       link,
     });
 
-    window.localStorage.setItem("account-links", JSON.stringify(productLinks));
+    storage.setAccountLinks(productLinks);
   };
 
   return (

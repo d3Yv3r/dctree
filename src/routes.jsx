@@ -6,8 +6,9 @@ import {
 
 import Home from "@/pages/Home";
 import AccountLinks from "@/pages/AccountLinks";
-import Dashboard from "./pages/Admin/Dashboard";
-import { CreateLink } from "./pages/Admin/CreateLink";
+import Dashboard from "@/pages/Admin/Dashboard";
+import Ui from "@/pages/Admin/Ui";
+import { CreateLink } from "@/pages/Admin/CreateLink";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ export default createBrowserRouter(
       <Route path="/admin">
         <Route path="dashboard" element={<Dashboard />}></Route>
         <Route path="create-link" element={<CreateLink />}></Route>
+        <Route path="ui" element={<Ui />}></Route>
       </Route>
     </>
   )
