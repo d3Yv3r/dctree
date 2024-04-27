@@ -21,9 +21,20 @@ export default {
     this.setItem("ui-style", data);
   },
 
-  getUiStyle() {
+  getUiStyleHover(attribute, defaultValue) {
+    let uiStyleHover = this.getItem("ui-style-hover");
+    return uiStyleHover;
+  },
+
+  getUiStyle(attribute, defaultValue) {
     let result = this.getItem("ui-style");
+
+    if (attribute) {
+      return result[attribute] ?? defaultValue;
+    }
+
     let uiStyle = {};
+
     Object.entries(result).forEach((item) => {
       let [key, value] = item;
       if (value === 0 || Number(value)) {
