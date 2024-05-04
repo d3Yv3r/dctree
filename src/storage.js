@@ -21,7 +21,11 @@ export default {
     this.setItem("ui-style", data);
   },
 
-  getUiStyleHover(attribute, defaultValue) {
+  setUiStyleHover(data) {
+    this.setItem("ui-style-hover", data);
+  },
+
+  getUiStyleHover() {
     let uiStyleHover = this.getItem("ui-style-hover");
     return uiStyleHover;
   },

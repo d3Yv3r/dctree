@@ -7,11 +7,11 @@
    width: 100%;
    font-size: 20px;
    font-weight: bold;
+   transition: all 0.3s;
 }
 
 .link-wrap {
    display: flex;
    flex-direction: column;
    gap: 5px;
-   
 }
