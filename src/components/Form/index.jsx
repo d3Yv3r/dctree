@@ -1,8 +1,19 @@
 import React from "react";
 
-export default function Form({ action, children, method, onSubmit }) {
+export default function Form({
+  action,
+  children,
+  method,
+  onSubmit,
+  className,
+}) {
   return (
-    <form action={action} className="w-75" method={method} onSubmit={onSubmit}>
+    <form
+      action={action}
+      className={className}
+      method={method}
+      onSubmit={onSubmit}
+    >
       {children}
     </form>
   );

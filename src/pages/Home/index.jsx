@@ -9,6 +9,9 @@ export default function Home() {
       <li>
         <Link to="/admin/dashboard">Dashboard</Link>
       </li>
+      <li>
+        <Link to="/login">Login</Link>
+      </li>
     </ul>
   );
 }

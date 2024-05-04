@@ -7,6 +7,13 @@ const links = storage.getAccountLinks();
 export default function AccountLinks() {
   return (
     <LinkList>
+      <img
+        src={storage.getItem("logo-img")}
+        width="200px"
+        className="m-auto"
+        style={{ borderRadius: "100%" }}
+        alt="Logo"
+      />
       {links.map((item, index) => (
         <LinkItem {...item} key={index} />
       ))}

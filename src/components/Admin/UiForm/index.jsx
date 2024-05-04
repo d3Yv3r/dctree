@@ -26,6 +26,8 @@ export default function UiForm() {
 
   const [styleHover, setStyleHover] = useState(storage.getUiStyleHover());
 
+  const [logoImg, setLogoImg] = useState(storage.getItem("logo-img"));
+
   const options = [
     {
       text: "Começo",
@@ -49,6 +51,8 @@ export default function UiForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    storage.setItem("logo-img", logoImg);
+
     storage.setUiStyle({
       color,
       textAlign,
@@ -67,10 +71,39 @@ export default function UiForm() {
     storage.setUiStyleHover(styleHover);
   };
 
+  const uploadHandler = (event) => {
+    let fileReader = new FileReader();
+
+    fileReader.onload = (file) => {
+      setLogoImg(file.target.result);
+    };
+
+    fileReader.readAsDataURL(event.target.files[0]);
+  };
+
   return (
     <>
       <h1>Ui</h1>
       <Form onSubmit={handleSubmit}>
+        <AdminSection title="Rede Sociais e Logo">
+          <div>
+            <label htmlFor="" className="form-label">
+              Logo
+            </label>
+            <input
+              type="file"
+              className="form-control form-control-color w-100"
+              onChange={uploadHandler}
+            />
+          </div>
+
+          {logoImg && (
+            <div className="mt-3">
+              <img src={logoImg} alt="" width="200px" />
+            </div>
+          )}
+        </AdminSection>
+
         <AdminSection title="Texto e Cor de Fundo">
           <div className="col">
             <label htmlFor="" className="form-label">
