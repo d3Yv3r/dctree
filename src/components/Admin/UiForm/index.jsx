@@ -1,32 +1,30 @@
 import Form from "@/components/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import storage from "@/storage";
 import AdminSection from "../AdminSection";
+import LinkItem from "@/components/LinkItem";
+import PreviewContext from "@/context/PreviewContext";
 
 export default function UiForm() {
-  const [color, setColor] = useState(storage.getUiStyle("color"));
-  const [backgroundColor, setBackgroundColor] = useState(
-    storage.getUiStyle("backgroundColor")
-  );
-  const [textAlign, setTextAlign] = useState(
-    storage.getUiStyle("textAlign", "start")
-  );
-  const [fontSize, setFontSize] = useState(storage.getUiStyle("fontSize", 14));
-  const [borderColor, setBorderColor] = useState(
-    storage.getUiStyle("borderColor")
-  );
-  const [borderWidth, setBorderWidth] = useState(
-    storage.getUiStyle("borderWidth", 1)
-  );
-  const [borderRadius, setBorderRadius] = useState(
-    storage.getUiStyle("borderRadius", 1)
-  );
+  const [uiStyle, setUiStyle] = useState({
+    color: storage.getUiStyle("color", "#000000"),
+    backgroundColor: storage.getUiStyle("backgroundColor", "#ffffff"),
+    textAlign: storage.getUiStyle("textAlign", "start"),
+    fontSize: storage.getUiStyle("fontSize", 12),
+    borderColor: storage.getUiStyle("borderColor", "#000000"),
+    borderWidth: storage.getUiStyle("borderWidth", 0),
+    borderRadius: storage.getUiStyle("borderRadius", 0),
+    logoImg: storage.getItem("logo-img"),
+  });
 
-  const [hoverEnabled, setHoverEnabled] = useState(false);
+  const [uiStyleLive, setUiStyleLive] = useState({});
 
+  useEffect(() => {
+    setUiStyleLive(uiStyle);
+  }, [uiStyle]);
+
+  const [hoverEnabled, setHoverEnabled] = useState();
   const [styleHover, setStyleHover] = useState(storage.getUiStyleHover());
-
-  const [logoImg, setLogoImg] = useState(storage.getItem("logo-img"));
 
   const options = [
     {
@@ -51,17 +49,9 @@ export default function UiForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    storage.setItem("logo-img", logoImg);
+    storage.setItem("logo-img", uiStyle.logoImg);
 
-    storage.setUiStyle({
-      color,
-      textAlign,
-      fontSize,
-      borderColor,
-      borderWidth,
-      borderRadius,
-      backgroundColor,
-    });
+    storage.setUiStyle(uiStyle);
 
     if (!hoverEnabled) {
       storage.setUiStyleHover({});
@@ -82,8 +72,11 @@ export default function UiForm() {
   };
 
   return (
-    <>
+    <PreviewContext contextData={{ uiStyleLive, styleHover }}>
       <h1>Ui</h1>
+      <div className="row">
+        <LinkItem label="Botão de Teste" />
+      </div>
       <Form onSubmit={handleSubmit}>
         <AdminSection title="Rede Sociais e Logo">
           <div>
@@ -97,9 +90,9 @@ export default function UiForm() {
             />
           </div>
 
-          {logoImg && (
+          {uiStyle.logoImg && (
             <div className="mt-3">
-              <img src={logoImg} alt="" width="200px" />
+              <img src={uiStyle.logoImg} alt="" width="200px" />
             </div>
           )}
         </AdminSection>
@@ -111,9 +104,9 @@ export default function UiForm() {
             </label>
             <input
               type="color"
-              value={color}
+              value={uiStyle.color}
               onChange={(event) => {
-                setColor(event.target.value);
+                setUiStyle({ ...uiStyle, color: event.target.value });
               }}
               className="form-control form-control-color w-100"
             />
@@ -124,9 +117,9 @@ export default function UiForm() {
             </label>
             <input
               type="color"
-              value={backgroundColor}
+              value={uiStyle.backgroundColor}
               onChange={(event) => {
-                setBackgroundColor(event.target.value);
+                setUiStyle({ ...uiStyle, backgroundColor: event.target.value });
               }}
               className="form-control form-control-color w-100"
             />
@@ -138,8 +131,10 @@ export default function UiForm() {
             </label>
             <select
               className="form-control"
-              value={textAlign}
-              onChange={(event) => setTextAlign(event.target.value)}
+              value={uiStyle.textAlign}
+              onChange={(event) => {
+                setUiStyle({ ...uiStyle, textAlign: event.target.value });
+              }}
             >
               {options.map((option, index) => (
                 <option value={option.value} key={index}>
@@ -151,15 +146,17 @@ export default function UiForm() {
 
           <div className="col">
             <label htmlFor="" className="form-label">
-              Tamanho ({fontSize}px)
+              Tamanho ({uiStyle.fontSize}px)
             </label>
             <input
               type="range"
               min="0"
               max="100"
-              value={fontSize}
+              value={uiStyle.fontSize}
               step="1"
-              onChange={(event) => setFontSize(event.target.value)}
+              onChange={(event) => {
+                setUiStyle({ ...uiStyle, fontSize: event.target.value });
+              }}
               className="form-range"
             />
           </div>
@@ -172,38 +169,44 @@ export default function UiForm() {
             </label>
             <input
               type="color"
-              value={borderColor}
-              onChange={(event) => setBorderColor(event.target.value)}
+              value={uiStyle.borderColor}
+              onChange={(event) => {
+                setUiStyle({ ...uiStyle, borderColor: event.target.value });
+              }}
               className="form-control form-control-color w-100"
             />
           </div>
 
           <div className="col">
             <label htmlFor="" className="form-label">
-              Largura ({borderWidth}px)
+              Largura ({uiStyle.borderWidth}px)
             </label>
             <input
               type="range"
               min="0"
               max="100"
-              value={borderWidth}
+              value={uiStyle.borderWidth}
               step="1"
-              onChange={(event) => setBorderWidth(event.target.value)}
+              onChange={(event) => {
+                setUiStyle({ ...uiStyle, borderWidth: event.target.value });
+              }}
               className="form-range"
             />
           </div>
 
           <div className="col">
             <label htmlFor="range" className="form-label">
-              Radius ({borderRadius}px)
+              Radius ({uiStyle.borderRadius}px)
             </label>
             <input
               type="range"
               min="0"
               max="100"
               step="1"
-              value={borderRadius}
-              onChange={(event) => setBorderRadius(event.target.value)}
+              value={uiStyle.borderRadius}
+              onChange={(event) => {
+                setUiStyle({ ...uiStyle, borderRadius: event.target.value });
+              }}
               className="form-range"
             />
           </div>
@@ -262,7 +265,7 @@ export default function UiForm() {
 
           <div className="col">
             <label htmlFor="" className="form-label">
-              Cor do Texto
+              Cor do Fundo
             </label>
             <input
               type="color"
@@ -281,6 +284,6 @@ export default function UiForm() {
           <button className="btn btn-dark w-100 mt-3">Salvar</button>
         </AdminSection>
       </Form>
-    </>
+    </PreviewContext>
   );
 }
