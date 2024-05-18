@@ -1,78 +1,29 @@
 import Form from "@/components/Form";
-import { useEffect, useState } from "react";
-import storage from "@/storage";
 import AdminSection from "../AdminSection";
 import LinkItem from "@/components/LinkItem";
+import { useContext } from "react";
 import PreviewContext from "@/context/PreviewContext";
+import { Preview } from "@/context/PreviewContext";
 
 export default function UiForm() {
-  const [uiStyle, setUiStyle] = useState({
-    color: storage.getUiStyle("color", "#000000"),
-    backgroundColor: storage.getUiStyle("backgroundColor", "#ffffff"),
-    textAlign: storage.getUiStyle("textAlign", "start"),
-    fontSize: storage.getUiStyle("fontSize", 12),
-    borderColor: storage.getUiStyle("borderColor", "#000000"),
-    borderWidth: storage.getUiStyle("borderWidth", 0),
-    borderRadius: storage.getUiStyle("borderRadius", 0),
-    logoImg: storage.getItem("logo-img"),
-  });
+  const uploadHandler = () => {};
 
-  const [uiStyleLive, setUiStyleLive] = useState({});
-
-  useEffect(() => {
-    setUiStyleLive(uiStyle);
-  }, [uiStyle]);
-
-  const [hoverEnabled, setHoverEnabled] = useState();
-  const [styleHover, setStyleHover] = useState(storage.getUiStyleHover());
-
-  const options = [
-    {
-      text: "Começo",
-      value: "start",
-    },
-    {
-      text: "Centro",
-      value: "center",
-    },
-    {
-      text: "Final",
-      value: "end",
-    },
-  ];
-
-  const statusOption = [
-    { text: "Desabilitado", value: "0" },
-    { text: "Habilitado", value: "1" },
-  ];
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    storage.setItem("logo-img", uiStyle.logoImg);
-
-    storage.setUiStyle(uiStyle);
-
-    if (!hoverEnabled) {
-      storage.setUiStyleHover({});
-      return;
-    }
-
-    storage.setUiStyleHover(styleHover);
-  };
-
-  const uploadHandler = (event) => {
-    let fileReader = new FileReader();
-
-    fileReader.onload = (file) => {
-      setLogoImg(file.target.result);
-    };
-
-    fileReader.readAsDataURL(event.target.files[0]);
-  };
+  const {
+    uiStyle,
+    setUiStyle,
+    uiStyleLive,
+    setUiStyleLive,
+    styleHover,
+    setStyleHover,
+    hoverEnabled,
+    setHoverEnabled,
+    handleSubmit,
+    options,
+    statusOption,
+  } = useContext(Preview);
 
   return (
-    <PreviewContext contextData={{ uiStyleLive, styleHover }}>
+    <>
       <h1>Ui</h1>
       <div className="row">
         <LinkItem label="Botão de Teste" />
@@ -284,6 +235,6 @@ export default function UiForm() {
           <button className="btn btn-dark w-100 mt-3">Salvar</button>
         </AdminSection>
       </Form>
-    </PreviewContext>
+    </>
   );
 }
