@@ -11,6 +11,7 @@ import Ui from "@/pages/Admin/Ui";
 import { CreateLink } from "@/pages/Admin/CreateLink";
 import Login from "@/pages/Login";
 import PreviewContext from "@/context/PreviewContext";
+import Register from "./pages/Register";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ export default createBrowserRouter(
       <Route path="/" element={<Home />}></Route>
       <Route path="/:accountlink" element={<AccountLinks />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/register" element={<Register />}></Route>
       <Route path="/admin">
         <Route path="dashboard" element={<Dashboard />}></Route>
         <Route path="create-link" element={<CreateLink />}></Route>
